@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oscar A. Clavel Ocampo — Software Architect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700;800&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+<script>document.documentElement.classList.add('has-motion');</script>
+<noscript>
+  <style>
+    @media (prefers-reduced-motion: no-preference) {
+      html.has-motion .metrics-strip .metric-item,
+      html.has-motion .section-header .section-num,
+      html.has-motion .section-header .section-title,
+      html.has-motion .section-header .section-line,
+      html.has-motion #architecture .arch-card,
+      html.has-motion #impact thead th,
+      html.has-motion #impact tbody tr,
+      html.has-motion #projects .proj-card,
+      html.has-motion #skills .skills-col,
+      html.has-motion #skills .tech-item,
+      html.has-motion #about .about-text p,
+      html.has-motion #about .code-owner-card h3,
+      html.has-motion #about .co-item,
+      html.has-motion #contact .contact-left > *,
+      html.has-motion #contact .contact-link,
+      html.has-motion footer .lh-metric,
+      html.has-motion footer > div:first-child,
+      html.has-motion #hero .terminal-body .t-line {
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+    }
+  </style>
+</noscript>
+
+<canvas id="bgCanvas"></canvas>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- Scan mode overlay -->
+<div id="scan-overlay">
+  <div class="scan-line"></div>
+  <div class="scan-corners"></div>
+</div>
+<button id="scan-btn" onclick="toggleScan()">⬡ SCAN MODE</button>
+
+<!-- Layer indicators -->
+<div class="layer-indicator">
+  <div class="layer-dot active" id="dot-0"></div>
+  <div class="layer-line"></div>
+  <div class="layer-dot" id="dot-1"></div>
+  <div class="layer-line"></div>
+  <div class="layer-dot" id="dot-2"></div>
+  <div class="layer-line"></div>
+  <div class="layer-dot" id="dot-3"></div>
+  <div class="layer-line"></div>
+  <div class="layer-dot" id="dot-4"></div>
+  <div class="layer-line"></div>
+  <div class="layer-dot" id="dot-5"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">OAC<span>.</span>dev</div>
+  <ul class="nav-links">
+    <li><a href="#hero">Init</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#impact">Impact</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Stack</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-status">
+    <div class="status-dot"></div>
+    AVAILABLE FOR HIRE
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-tag">// Software Architect & Code Owner</div>
+    <h1 class="hero-title">
+      Oscar A.<br>
+      <span class="accent glitch" data-text="Clavel">Clavel</span><br>
+      <span class="accent2">Ocampo</span>
+    </h1>
+    <div class="hero-role">Ingeniero en Comunicaciones y Electrónica · Ford Motor Company</div>
+    <p class="hero-desc">
+      Arquitecto de software especializado en automatización Python, visión computacional y sistemas embebidos.
+      Code Owner responsable de estándares de ingeniería en plataformas automotrices críticas FNV1/2/3.
+    </p>
+    <div class="hero-btns">
+      <a href="#architecture" class="btn-primary">View Architecture</a>
+      <a href="#contact" class="btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="terminal-card">
+      <div class="terminal-bar">
+        <div class="t-dot r"></div>
+        <div class="t-dot y"></div>
+        <div class="t-dot g"></div>
+        <span class="terminal-title">system_status.py — oscar@ford-architect</span>
+      </div>
+      <div class="terminal-body">
+        <div class="t-line"><span class="t-prompt">➜ </span><span class="t-cmd">python3 status.py</span></div>
+        <div class="t-line t-comment"># Initializing engineer profile...</div>
+        <div class="t-line"><span class="t-key">name</span><span class="t-val"> = "Oscar Alejandro Clavel Ocampo"</span></div>
+        <div class="t-line"><span class="t-key">role</span><span class="t-val"> = "Software Architect / Code Owner"</span></div>
+        <div class="t-line"><span class="t-key">company</span><span class="t-val"> = "Estrateg-ia / Ford Motor Company"</span></div>
+        <div class="t-line"><span class="t-key">status</span><span class="t-val"> = <span class="t-success">"Available for Escalation"</span></span></div>
+        <div class="t-line"><span class="t-key">repos_owned</span><span class="t-val"> = 5</span></div>
+        <div class="t-line"><span class="t-key">code_health</span><span class="t-val"> = <span class="t-success">0.98</span></span></div>
+        <div class="t-line"><span class="t-key">last_build</span><span class="t-val"> = <span class="t-success">"Jenkins · SUCCESS"</span></span></div>
+        <div class="t-line"><span class="t-key">redundancy_reduction</span><span class="t-val"> = <span class="t-warn">"-30%"</span></span></div>
+        <div class="t-line"><span class="t-prompt">➜ </span><span class="cursor-blink"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Metrics -->
+<div class="metrics-strip">
+  <div class="metric-item">
+    <div class="metric-num" id="m1">0</div>
+    <div class="metric-label">% Code Redundancy Reduced</div>
+  </div>
+  <div class="metric-item">
+    <div class="metric-num green" id="m2">0</div>
+    <div class="metric-label">HMI Test Cases Automated</div>
+  </div>
+  <div class="metric-item">
+    <div class="metric-num orange" id="m3">0</div>
+    <div class="metric-label">FNV Platforms Owned</div>
+  </div>
+  <div class="metric-item">
+    <div class="metric-num" id="m4">0</div>
+    <div class="metric-label">Repositories Managed</div>
+  </div>
+</div>
+
+<!-- ARCHITECTURE -->
+<section id="architecture">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-num">01 —</span>
+      <h2 class="section-title">Stack Architecture</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="arch-grid">
+      <div class="arch-card">
+        <div class="arch-card-tag"><div class="tag-dot"></div>Silicon Layer</div>
+        <div class="arch-card-title">Hardware & Embedded</div>
+        <div class="arch-card-desc">
+          Fundamento en circuitos digitales, microcontroladores y PCB design. Ingeniería en Comunicaciones y Electrónica aplicada a sistemas automotrices críticos.
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">Assembly</span>
+          <span class="skill-tag">C++</span>
+          <span class="skill-tag">PCB Design</span>
+          <span class="skill-tag">Microcontrollers</span>
+          <span class="skill-tag">VHDL</span>
+        </div>
+      </div>
+
+      <div class="arch-card lime">
+        <div class="arch-card-tag"><div class="tag-dot"></div>Logic Layer</div>
+        <div class="arch-card-title">Automation Architecture</div>
+        <div class="arch-card-desc">
+          Diseño orientado a objetos en Python. Base classes estandarizadas para automatización, reduciendo redundancia -30%. Final point of escalation para blockers críticos.
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">OOD Principles</span>
+          <span class="skill-tag">Squish</span>
+          <span class="skill-tag">Jenkins CI/CD</span>
+          <span class="skill-tag">OpenCV</span>
+        </div>
+      </div>
+
+      <div class="arch-card">
+        <div class="arch-card-tag"><div class="tag-dot"></div>Interface Layer</div>
+        <div class="arch-card-title">HMI & Vision Systems</div>
+        <div class="arch-card-desc">
+          Frameworks de prueba para plataformas HMI Ford FNV1/2/3. Integración de visión computacional OpenCV para validación de interfaces y actualizaciones OTA.
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">HMI Testing</span>
+          <span class="skill-tag">OpenCV</span>
+          <span class="skill-tag">OTA Updates</span>
+          <span class="skill-tag">FNV Platforms</span>
+        </div>
+      </div>
+
+      <div class="arch-card lime">
+        <div class="arch-card-tag"><div class="tag-dot"></div>Cloud / Creative</div>
+        <div class="arch-card-title">Multimedia & Game Dev</div>
+        <div class="arch-card-desc">
+          Pipeline de automatización QC para distribución Netflix en Candiani Studios. Desarrollo de videojuego "Nebula Glitch" en Unity. DolbyATMOS / Clipster workflows.
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">Unity</span>
+          <span class="skill-tag">Python QC</span>
+          <span class="skill-tag">Dolby ATMOS</span>
+          <span class="skill-tag">Netflix Pipeline</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT TABLE -->
+<section id="impact">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-num">02 —</span>
+      <h2 class="section-title">Architecture Impact @ Ford</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="impact-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Before</th>
+            <th>After (Code Owner)</th>
+            <th>Δ Improvement</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Code Redundancy</td>
+            <td class="td-before">Alta — funciones repetitivas</td>
+            <td class="td-after">Base Classes + OOD Principles</td>
+            <td class="td-improve">−30%</td>
+          </tr>
+          <tr>
+            <td>Blocker Resolution</td>
+            <td class="td-before">Semanas (escalamiento lento)</td>
+            <td class="td-after">Final point of escalation</td>
+            <td class="td-improve">&lt;1h</td>
+          </tr>
+          <tr>
+            <td>HMI Test Cases</td>
+            <td class="td-before">Manuales / básicos</td>
+            <td class="td-after">Python + Squish + OpenCV</td>
+            <td class="td-improve">150+</td>
+          </tr>
+          <tr>
+            <td>Global Architecture</td>
+            <td class="td-before">Fragmentada por equipo</td>
+            <td class="td-after">Unified standards</td>
+            <td class="td-improve">100%</td>
+          </tr>
+          <tr>
+            <td>Code Health</td>
+            <td class="td-before">No monitored</td>
+            <td class="td-after">Repository ownership active</td>
+            <td class="td-improve">98%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-num">03 —</span>
+      <h2 class="section-title">Selected Projects</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="projects-grid">
+      <div class="proj-card">
+        <div class="proj-thumb" id="thumb-ford">
+          <canvas id="c-ford"></canvas>
+          <div class="proj-badge ford">Ford Motor</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-title">FNV HMI Automation Framework</div>
+          <div class="proj-desc">Arquitectura de automatización para plataformas FNV1/2/3. Base classes Python con OOD, integración OpenCV para validación visual de HMI.</div>
+          <div class="proj-stack">
+            <span>Python</span><span>Squish</span><span>OpenCV</span><span>Jenkins</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-thumb" id="thumb-nebula">
+          <canvas id="c-nebula"></canvas>
+          <div class="proj-badge personal">Personal</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-title">Nebula Glitch</div>
+          <div class="proj-desc">Videojuego desarrollado en Unity con estética cyberpunk/space. Exploración de mecánicas de glitch art digital y narrativa interactiva.</div>
+          <div class="proj-stack">
+            <span>Unity</span><span>C#</span><span>HLSL</span><span>Glitch FX</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-thumb" id="thumb-netflix">
+          <canvas id="c-netflix"></canvas>
+          <div class="proj-badge netflix">Netflix Partner</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-title">Netflix QC Pipeline</div>
+          <div class="proj-desc">Sistema de automatización QC de metadatos multimedia para distribución Netflix vía Candiani Studios. Python scripts para validación de assets Dolby.</div>
+          <div class="proj-stack">
+            <span>Python</span><span>Dolby ATMOS</span><span>Clipster</span><span>QC Automation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-num">04 —</span>
+      <h2 class="section-title">Technical Stack</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="skills-layout">
+      <div class="skills-col">
+        <div class="skills-col-title">Core Proficiency</div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">Python (OOD / Automation)</span><span class="skill-bar-pct">95%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="95"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">OpenCV / Computer Vision</span><span class="skill-bar-pct">88%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="88"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">HMI Test Frameworks</span><span class="skill-bar-pct">92%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="92"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">Software Architecture</span><span class="skill-bar-pct">90%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="90"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">C++ / Embedded Systems</span><span class="skill-bar-pct">80%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill orange" data-pct="80"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">Unity / Game Dev</span><span class="skill-bar-pct">75%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill orange" data-pct="75"></div></div>
+        </div>
+      </div>
+
+      <div class="skills-col">
+        <div class="skills-col-title">Technology Ecosystem</div>
+        <div class="tech-grid">
+          <div class="tech-item"><span>Jenkins</span></div>
+          <div class="tech-item"><span>Git / GitHub</span></div>
+          <div class="tech-item"><span>Squish</span></div>
+          <div class="tech-item"><span>CI/CD</span></div>
+          <div class="tech-item"><span>PCB Design</span></div>
+          <div class="tech-item"><span>Assembly</span></div>
+          <div class="tech-item"><span>VHDL</span></div>
+          <div class="tech-item"><span>Dolby ATMOS</span></div>
+          <div class="tech-item"><span>Clipster</span></div>
+          <div class="tech-item"><span>Linux</span></div>
+          <div class="tech-item"><span>OTA Updates</span></div>
+          <div class="tech-item"><span>C#</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT / CODE OWNER -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-num">05 —</span>
+      <h2 class="section-title">The Architect Profile</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="about-layout">
+      <div class="about-text">
+        <p>
+          Ingeniero en Comunicaciones y Electrónica con una trayectoria que abarca desde el silicio hasta la nube.
+          Mi enfoque une la <strong>física de los circuitos</strong> con la lógica abstracta del software de alto nivel,
+          posicionándome como un arquitecto capaz de entender y optimizar sistemas complejos en su totalidad.
+        </p>
+        <p>
+          En Ford Motor Company actúo como <strong>Code Owner</strong> y punto final de escalamiento para blockers críticos,
+          definiendo los estándares de arquitectura de automatización que garantizan la coherencia global de las plataformas HMI.
+        </p>
+        <p>
+          Mi misión es construir sistemas donde cada línea de código tenga un <strong>propósito arquitectónico</strong>:
+          eliminando redundancia, estandarizando patrones y mentoreando a los equipos hacia una base de código sólida y escalable.
+        </p>
+      </div>
+
+      <div class="code-owner-card">
+        <h3><span class="co-icon">⬡</span> Code Owner Responsibilities</h3>
+        <div class="co-item">
+          <span class="co-bullet">▸</span>
+          Salud y coherencia del repositorio principal de automatización
+        </div>
+        <div class="co-item">
+          <span class="co-bullet">▸</span>
+          Definición de principios OOD y clases base estandarizadas en Python
+        </div>
+        <div class="co-item">
+          <span class="co-bullet">▸</span>
+          Punto final de escalamiento para blockers críticos (&lt;1h resolución)
+        </div>
+        <div class="co-item">
+          <span class="co-bullet">▸</span>
+          Mentoría y revisión de código de desarrolladores junior
+        </div>
+        <div class="co-item">
+          <span class="co-bullet">▸</span>
+          Integración OpenCV para validación visual de interfaces HMI
+        </div>
+        <div class="co-item">
+          <span class="co-bullet">▸</span>
+          Gestión de pipelines CI/CD en Jenkins para releases FNV
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-layout">
+    <div class="contact-left">
+      <div class="big-title">
+        Let's build something <span style="color:var(--cyan)" class="glitch" data-text="critical.">critical.</span>
+      </div>
+      <p>
+        Disponible para roles de arquitectura de software, automatización avanzada y liderazgo técnico.
+        Si necesitas un Code Owner con visión sistémica y profundidad técnica, hablemos.
+      </p>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:aleco@gmail.com" class="contact-link">
+        <span class="cl-icon">✉</span>
+        <div>
+          <div class="cl-label">Email</div>
+          <div class="cl-val">aleco@gmail.com</div>
+        </div>
+      </a>
+      <a href="https://github.com/alejandrorosas246-rgb" target="_blank" class="contact-link">
+        <span class="cl-icon">⌥</span>
+        <div>
+          <div class="cl-label">GitHub</div>
+          <div class="cl-val">github.com/oaclavel</div>
+        </div>
+      </a>
+      <a href="https://linkedin.com/in/oscar-alejandro-clavel-ocampo-46340a35a" target="_blank" class="contact-link">
+        <span class="cl-icon">◈</span>
+        <div>
+          <div class="cl-label">LinkedIn</div>
+          <div class="cl-val">linkedin.com/in/alejandro</div>
+        </div>
+      </a>
+      <a href="#" class="contact-link">
+        <span class="cl-icon">⬡</span>
+        <div>
+          <div class="cl-label">Location</div>
+          <div class="cl-val">México · Remote Available</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>OAC.dev © 2025 — <span>Oscar Alejandro Clavel Ocampo</span></div>
+  <div class="lighthouse">
+    <div class="lh-metric">
+      <div class="lh-score">98</div>
+      <div class="lh-label">Performance</div>
+    </div>
+    <div class="lh-metric">
+      <div class="lh-score">100</div>
+      <div class="lh-label">Accessibility</div>
+    </div>
+    <div class="lh-metric">
+      <div class="lh-score">100</div>
+      <div class="lh-label">Best Practices</div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>
