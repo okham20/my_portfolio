@@ -30,6 +30,7 @@
 :root {
     --bg: #060a10;
     --bg2: #0a0e18;
+    --bg-shift: 0;
     --cyan: #00f5ff;
     --lime: #39ff14;
     --orange: #ff6b2b;
@@ -50,6 +51,17 @@ body {
     font-family: var(--font-mono);
     overflow-x: hidden;
     cursor: none;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: calc(var(--bg-shift) * 0.35);
+    background: radial-gradient(1200px 600px at 20% 15%, rgba(0,245,255,0.16), transparent 60%),
+                radial-gradient(900px 600px at 80% 75%, rgba(57,255,20,0.12), transparent 65%);
 }
 
 /* Custom cursor */
@@ -168,8 +180,14 @@ section { position: relative; z-index: 1; }
     align-items: center;
     padding: 8rem 3rem 4rem;
     gap: 2rem;
+    perspective: 1200px;
+    transform-style: preserve-3d;
 }
-.hero-left { min-width: 0; }
+.hero-left {
+    min-width: 0;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
 .hero-tag {
     font-size: .65rem;
     letter-spacing: .2em;
@@ -185,6 +203,7 @@ section { position: relative; z-index: 1; }
     line-height: 1.05;
     opacity: 0;
     margin-bottom: 1rem;
+    will-change: transform;
 }
 .hero-title .accent { color: var(--cyan); }
 .hero-title .accent2 { color: var(--lime); }
@@ -195,6 +214,7 @@ section { position: relative; z-index: 1; }
     text-transform: uppercase;
     margin-bottom: 2.5rem;
     opacity: 0;
+    will-change: transform;
 }
 .hero-desc {
     font-size: .8rem;
@@ -203,11 +223,13 @@ section { position: relative; z-index: 1; }
     max-width: 460px;
     margin-bottom: 2.5rem;
     opacity: 0;
+    will-change: transform;
 }
 .hero-btns {
     display: flex;
     gap: 1rem;
     opacity: 0;
+    transform-style: preserve-3d;
 }
 .btn-primary,
 .btn-ghost {
@@ -243,13 +265,19 @@ section { position: relative; z-index: 1; }
 .btn-ghost:hover { color: var(--cyan); border-color: var(--cyan); }
 
 /* Hero right: terminal card */
-.hero-right { opacity: 0; }
+.hero-right {
+    opacity: 0;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
 .terminal-card {
     background: rgba(0,245,255,0.03);
     border: 1px solid var(--border);
     clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
     padding: 0;
     overflow: hidden;
+    transform: translateZ(0);
+    will-change: transform;
 }
 .terminal-bar {
     background: rgba(0,245,255,0.07);
@@ -362,6 +390,7 @@ section { position: relative; z-index: 1; }
     position: relative;
     overflow: hidden;
     transition: border-color .3s, transform .3s;
+    will-change: transform;
 }
 .arch-card:hover { border-color: rgba(0,245,255,0.4); transform: translateY(-4px); }
 .arch-card::before {
@@ -453,6 +482,7 @@ tr:hover td { background: rgba(0,245,255,0.03); }
     position: relative;
     transition: transform .3s, border-color .3s;
     clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+    will-change: transform;
 }
 .proj-card:hover { transform: translateY(-6px); border-color: rgba(0,245,255,0.35); }
 .proj-thumb {
@@ -619,6 +649,11 @@ tr:hover td { background: rgba(0,245,255,0.03); }
     transition: background .3s, border-color .3s, color .3s;
     will-change: transform;
     clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+}
+
+.magnetic {
+    transform: translateZ(0);
+    will-change: transform;
 }
 .contact-link:hover { border-color: rgba(0,245,255,0.4); color: var(--cyan); background: rgba(0,245,255,0.06); }
 .cl-icon { font-size: 1.2rem; }

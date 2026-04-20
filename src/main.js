@@ -1,33 +1,63 @@
-// ===== CURSOR (unchanged — independent from GSAP) =====
 const cursor = document.getElementById('cursor');
 const cursorRing = document.getElementById('cursor-ring');
-let mx = 0, my = 0, rx = 0, ry = 0;
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-function animCursor() {
-  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
-  cursorRing.style.left = rx + 'px'; cursorRing.style.top = ry + 'px';
-  requestAnimationFrame(animCursor);
+let mx = 0;
+let my = 0;
+let rx = 0;
+let ry = 0;
+
+document.addEventListener('mousemove', (e) => {
+  mx = e.clientX;
+  my = e.clientY;
+});
+
+function animateCursor() {
+  if (cursor) {
+    cursor.style.left = `${mx}px`;
+    cursor.style.top = `${my}px`;
+  }
+
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+
+  if (cursorRing) {
+    cursorRing.style.left = `${rx}px`;
+    cursorRing.style.top = `${ry}px`;
+  }
+
+  requestAnimationFrame(animateCursor);
 }
-animCursor();
-document.querySelectorAll('a, button, .proj-card, .arch-card, .tech-item').forEach(el => {
+
+animateCursor();
+
+document.querySelectorAll('a, button, .proj-card, .arch-card, .tech-item').forEach((el) => {
   el.addEventListener('mouseenter', () => {
-    cursor.style.transform = 'translate(-50%,-50%) scale(2)';
-    cursorRing.style.width = '48px'; cursorRing.style.height = '48px';
-    cursorRing.style.borderColor = 'rgba(0,245,255,0.8)';
+    if (cursor) cursor.style.transform = 'translate(-50%,-50%) scale(2)';
+    if (cursorRing) {
+      cursorRing.style.width = '48px';
+      cursorRing.style.height = '48px';
+      cursorRing.style.borderColor = 'rgba(0,245,255,0.8)';
+    }
   });
+
   el.addEventListener('mouseleave', () => {
-    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
-    cursorRing.style.width = '32px'; cursorRing.style.height = '32px';
-    cursorRing.style.borderColor = 'rgba(0,245,255,0.5)';
+    if (cursor) cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+    if (cursorRing) {
+      cursorRing.style.width = '32px';
+      cursorRing.style.height = '32px';
+      cursorRing.style.borderColor = 'rgba(0,245,255,0.5)';
+    }
   });
 });
 
 // ===== BACKGROUND CANVAS =====
 const bgC = document.getElementById('bgCanvas');
-const bgCtx = bgC.getContext('2d');
+const bgCtx = bgC ? bgC.getContext('2d') : null;
 let W, H;
-function resizeBg() { W = bgC.width = window.innerWidth; H = bgC.height = window.innerHeight; }
+function resizeBg() {
+  if (!bgC) return;
+  W = bgC.width = window.innerWidth;
+  H = bgC.height = window.innerHeight;
+}
 resizeBg();
 window.addEventListener('resize', resizeBg);
 
@@ -41,6 +71,7 @@ const particles = Array.from({ length: 80 }, () => ({
 }));
 
 function drawBg() {
+  if (!bgCtx) return;
   bgCtx.clearRect(0, 0, W, H);
   bgCtx.strokeStyle = 'rgba(0,245,255,0.04)';
   bgCtx.lineWidth = 1;
@@ -516,3 +547,5 @@ document.querySelectorAll('.nav-links a').forEach(a => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   });
 });
+
+window.toggleScan = toggleScan;
